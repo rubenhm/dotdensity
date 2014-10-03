@@ -1,6 +1,6 @@
 App made for testing dot density web maps. [Check it out](http://wpears.github.io/dotdensity)
 
-Uses [census tracts](ftp://ftp.census.gov/) and [HMDA](http://cfpb.github.io/api/hmda/index.html) data.
+Uses [census tracts](ftp://ftp.census.gov/) and [HMDA](http://cfpb.github.io/api/hmda/index.html) data. HMDA data is composed of successful mortgage applications from 2007 - 2013.
 
 The census tracts are not quite small enough to capture any enclaves in Yolo county (some exist, such as [Yolo and Madison](http://en.wikipedia.org/wiki/Yolo_County,_California#2011), but these are too small and have too few mortgages originated to be seen. Their points get scattered across the larger tracts). Also, the renderer is surprisingly slow, requiring nearly a second if each mortgage is shown as a point. Usability gets traded away pretty quickly as more points are shown.
 
