@@ -8,6 +8,8 @@ require([
   "esri/renderers/DotDensityRenderer",
   "esri/renderers/ScaleDependentRenderer",
   "esri/Color",
+
+  "dojo/on",
   "dojo/domReady!"
 ], function(
   Map,
@@ -18,7 +20,9 @@ require([
   SimpleLineSymbol,
   DotDensityRenderer,
   ScaleDependentRenderer,
-  Color
+  Color,
+
+  on
 ){
 
   var D = document;
@@ -137,6 +141,23 @@ require([
     legend.appendChild(legendTitle);
     legend.appendChild(dotScale);
     legend.appendChild(legendList)
+
+    var legendHidden = 0;
+    var legendWidth = -(legend.clientWidth-20);
+
+    on(legend,"click",function(){
+      var pos;
+
+      if(legendHidden){
+        pos=0;
+        legendHidden = 0;
+      }else{
+        pos = legendWidth;
+        legendHidden = 1
+      }
+      legend.style["-webkit-transform"] = "translate3d("+ pos + "px,0,0)";
+      legend.style.transform = "translate3d("+ pos + "px,0,0)";
+    });
 
 
     function spaced(str){
