@@ -1,6 +1,5 @@
 require([
   "esri/map",
-  "esri/geometry/Extent",
   "esri/layers/FeatureLayer",
   "esri/layers/ArcGISTiledMapServiceLayer",
   "esri/symbols/SimpleFillSymbol",
@@ -8,13 +7,10 @@ require([
   "esri/renderers/DotDensityRenderer",
   "esri/renderers/ScaleDependentRenderer",
   "esri/Color",
-  "dojo/query",
-  "dojo/dom",
   "esri/dijit/Legend",
   "dojo/domReady!"
 ], function(
   Map,
-  Extent,
   FeatureLayer,
   ArcGISTiledMapServiceLayer,
   SimpleFillSymbol,
@@ -22,18 +18,18 @@ require([
   DotDensityRenderer,
   ScaleDependentRenderer,
   Color,
-  query,
-  dom,
   Legend
 ){
 
-  map = new Map("map", {
-    center: [-121.9, 38.6],
-    zoom: 10,
-    maxZoom: 12,
-    minZoom: 10
+
+  var map = new Map("map", {
+      center: [-121.9, 38.6],
+      zoom: 10,
+      maxZoom: 12,
+      minZoom: 10
   });
   
+
   var basemap = new ArcGISTiledMapServiceLayer("http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer");
   map.addLayer(basemap);
 
@@ -41,6 +37,7 @@ require([
     mode: FeatureLayer.MODE_SNAPSHOT,
     outFields: ["tract","White","Hispanic","Asian","Black","Pacific_Islander","American_Indian"]
   });
+
 
   var dotSizes = {32:4,8:3,2:3}
   
@@ -76,6 +73,7 @@ require([
       }
     });
   };
+
   
   var rendererInfos = [
     {
@@ -92,12 +90,15 @@ require([
       minZoom: 12
     }
   ];
+
   
   var scaleDependentRenderer = new ScaleDependentRenderer({
     rendererInfos: rendererInfos
   });
   layer.setRenderer(scaleDependentRenderer);
   map.addLayer(layer);
+
+
 
   var legend = new Legend({
     map: map,
