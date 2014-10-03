@@ -11,7 +11,7 @@ curs = arcpy.da.SearchCursor('hmda_lar.csv',cols)
 
 
 def proc (tract, race, eth):
-  if eth[0] != 'N':
+  if eth[0] != 'H':
     if race[0:3] == "Bla":
       tracts[tract]["Black"] += 1
     elif race[0:3] == "Ame":
