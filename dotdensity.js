@@ -42,7 +42,7 @@ require([
     outFields: ["tract","White","Hispanic","Asian","Black","Pacific_Islander","American_Indian"]
   });
 
-  var dotSizes = {80:4,20:3,5:3}
+  var dotSizes = {32:4,8:3,2:3}
   
   var createRenderer = function(dotValue) {
     return new DotDensityRenderer({
@@ -51,21 +51,21 @@ require([
         color: new Color("#a6cee3")
       }, {
         name: "Hispanic",
-        color: new Color("#1f78b4")
+        color: new Color("#1f78ff")
       }, {
         name: "Asian",
-        color: new Color("#33a02c")
+        color: new Color("#11bb07")
       }, {
         name: "Black",
         color: new Color("#e41a1c")
       },
       {
         name: "Pacific_Islander",
-        color: new Color("#984ea3")
+        color: new Color("#aa00ff")
       },
       {
         name: "American_Indian",
-        color: new Color("#e7298a")
+        color: new Color("#ecef14")
       }],
       dotValue: dotValue,
       dotSize: dotSizes[dotValue],
@@ -79,15 +79,15 @@ require([
   
   var rendererInfos = [
     {
-      renderer: createRenderer(80),
+      renderer: createRenderer(32),
       maxZoom: 10,
       minZoom: 10
     }, {
-      renderer: createRenderer(20),
+      renderer: createRenderer(8),
       maxZoom: 11,
       minZoom: 11
     }, {
-      renderer: createRenderer(5),
+      renderer: createRenderer(2),
       maxZoom: 12,
       minZoom: 12
     }
