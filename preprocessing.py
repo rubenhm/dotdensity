@@ -6,7 +6,6 @@ from collections import defaultdict
 
 tracts = defaultdict(lambda:defaultdict(lambda:0))
 cols = ['census_tract_number', 'applicant_race_name_1', 'applicant_ethnicity_name']
-curs = arcpy.da.SearchCursor('hmda_lar.csv',cols)
 
 
 
@@ -24,6 +23,19 @@ def proc (tract, race, eth):
     tracts[tract]["Hispanic"] +=1
 
 
+with arcpy.da.SearchCursor('hmda_lar.csv',cols) as curs:
+  for row in curs:
+    proc(*row)
 
-for row in curs:
-  proc(*row)
+
+
+
+posInRow = {'American_Indian': 6, 'Hispanic': 2, 'Black': 4, 'Asian': 3, 'White': 1, 'Pacific_Islander': 5}
+raceFields = ["tract","White","Hispanic","Asian","Black","Pacific_Islander","American_Indian"]
+
+with arcpy.da.UpdateCursor('yolo_tracts', raceFields) as yolo_curs:
+  for row in yolo_curs:
+    tract = row[0]
+    for key in tracts[tract]:
+       row[posInRow[key]] = tracts[tract][key]
+    yolo_curs.updateRow(row)
