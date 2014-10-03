@@ -1,5 +1,6 @@
 require([
   "esri/map",
+  "esri/config",
   "esri/layers/FeatureLayer",
   "esri/layers/ArcGISTiledMapServiceLayer",
   "esri/symbols/SimpleFillSymbol",
@@ -7,20 +8,21 @@ require([
   "esri/renderers/DotDensityRenderer",
   "esri/renderers/ScaleDependentRenderer",
   "esri/Color",
-  "esri/dijit/Legend",
   "dojo/domReady!"
 ], function(
   Map,
+  Config,
   FeatureLayer,
   ArcGISTiledMapServiceLayer,
   SimpleFillSymbol,
   SimpleLineSymbol,
   DotDensityRenderer,
   ScaleDependentRenderer,
-  Color,
-  Legend
+  Color
 ){
 
+  var D = document;
+  Config.defaults.io.corsDetection = false;
 
   var map = new Map("map", {
       center: [-121.9, 38.6],
@@ -31,7 +33,6 @@ require([
   
 
   var basemap = new ArcGISTiledMapServiceLayer("http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer");
-  map.addLayer(basemap);
 
   var layer = new FeatureLayer("https://darcgis.water.ca.gov/arcgis/rest/services/cadre/yolo_tracts_by_race/MapServer/0", {
     mode: FeatureLayer.MODE_SNAPSHOT,
@@ -40,10 +41,7 @@ require([
 
 
   var dotSizes = {32:4,8:3,2:3}
-  
-  var createRenderer = function(dotValue) {
-    return new DotDensityRenderer({
-      fields: [{
+  var fields =  [{
         name: "White",
         color: new Color("#a6cee3")
       }, {
@@ -63,7 +61,12 @@ require([
       {
         name: "American_Indian",
         color: new Color("#ecef14")
-      }],
+      }];
+
+
+  var createRenderer = function(dotValue) {
+    return new DotDensityRenderer({
+      fields:fields,
       dotValue: dotValue,
       dotSize: dotSizes[dotValue],
       outline: new SimpleLineSymbol("solid", new Color([50, 50, 50, 1]), 0.5),
@@ -96,14 +99,24 @@ require([
     rendererInfos: rendererInfos
   });
   layer.setRenderer(scaleDependentRenderer);
-  map.addLayer(layer);
+
+  map.addLayers([basemap,layer]);
 
 
+  var legend = D.getElementById("legend");
+  var legend_inner = D.createElement('ul');
 
-  var legend = new Legend({
-    map: map,
-    layerInfos: [{ layer: layer }]
-  }, "legend");
-  legend.startup();
+  fields.forEach(function(field){
+    var item = D.createElement('li');
+    item.innerText = spaced(field.name);
+    item.style.color = field.color;
+    legend_inner.appendChild(item);
+  });
+  legend.appendChild(legend_inner)
+
+
+  function spaced(str){
+    return str.replace(/_/g, " ");
+  }
 
 });

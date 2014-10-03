@@ -9,10 +9,17 @@ html, body, #map {
   opacity:0.25;
 }
 
-#legendWrapper{
+#legend{
   position:absolute;
-  bottom:10px;
-  right:10px;
-  width:180px;
-  height:250px;
+  bottom:0;
+  left:0px;
+  font:bold 24px sans-serif;
+  text-align: left;
+  background-color:rgba(0,0,0,0.1);
+}
+
+#legend > ul{
+  list-style-type: none;
+  margin:0;
+  padding:16px 20px;
 }
