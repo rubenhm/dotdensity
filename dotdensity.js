@@ -40,7 +40,9 @@ require([
   });
 
 
-  var dotSizes = {32:4,8:3,2:3}
+  var dotSizes = {32:4,8:3,2:3};
+  var zoomToDots = {10:32,11:8,12:2};
+
   var fields =  [{
         name: "White",
         color: new Color("#a6cee3")
@@ -70,10 +72,6 @@ require([
       dotValue: dotValue,
       dotSize: dotSizes[dotValue],
       outline: new SimpleLineSymbol("solid", new Color([50, 50, 50, 1]), 0.5),
-      legendOptions: {
-        valueUnit: "mortgages",
-        backgroundColor: new Color([32, 32, 32])
-      }
     });
   };
 
@@ -100,23 +98,48 @@ require([
   });
   layer.setRenderer(scaleDependentRenderer);
 
+
+  var legend = (function(){
+    var legend = D.getElementById("legend");
+    var legendTitle = D.createElement('h3');
+    var dotScale = D.createElement('h5');
+    var legendList = D.createElement('ul');
+
+    legendTitle.innerText = "Mortgages by Race";
+    setDotAmount(32);
+
+    fields.forEach(function(field){
+      var item = D.createElement('li');
+      item.innerText = spaced(field.name);
+      item.style.color = field.color;
+      legendList.appendChild(item);
+    });
+
+    legend.appendChild(legendTitle);
+    legend.appendChild(dotScale);
+    legend.appendChild(legendList)
+
+
+    function spaced(str){
+      return str.replace(/_/g, " ");
+    }
+
+    function setDotAmount(dotAmount){
+      dotScale.innerText = "1 Dot = "+dotAmount + " mortgages";
+    }
+
+
+    return {
+      node:legend,
+      setDotAmount: setDotAmount
+    }
+
+  })();
+
+
   map.addLayers([basemap,layer]);
-
-
-  var legend = D.getElementById("legend");
-  var legend_inner = D.createElement('ul');
-
-  fields.forEach(function(field){
-    var item = D.createElement('li');
-    item.innerText = spaced(field.name);
-    item.style.color = field.color;
-    legend_inner.appendChild(item);
-  });
-  legend.appendChild(legend_inner)
-
-
-  function spaced(str){
-    return str.replace(/_/g, " ");
-  }
+  map.on('zoom-end',function(e){
+    legend.setDotAmount(zoomToDots[e.level])
+  })
 
 });

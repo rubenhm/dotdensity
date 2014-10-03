@@ -16,10 +16,20 @@ html, body, #map {
   font:bold 24px sans-serif;
   text-align: left;
   background-color:rgba(0,0,0,0.1);
+  text-shadow:0 0 1px #111;
+  padding:16px 20px;
+  color:#f4f8ff;
+    list-style-type: none;
 }
 
-#legend > ul{
-  list-style-type: none;
+h3, ul{
+  padding:0;
   margin:0;
-  padding:16px 20px;
+  list-style-type: none;
+}
+
+h5{
+  font-size:18px;
+  font-weight:400;
+  margin:5px 0 10px;
 }
