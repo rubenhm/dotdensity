@@ -34,10 +34,29 @@ require([
 
   var basemap = new ArcGISTiledMapServiceLayer("http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer");
 
-  var layer = new FeatureLayer("https://darcgis.water.ca.gov/arcgis/rest/services/cadre/yolo_tracts_by_race/MapServer/0", {
-    mode: FeatureLayer.MODE_SNAPSHOT,
-    outFields: ["tract","White","Hispanic","Asian","Black","Pacific_Islander","American_Indian"]
-  });
+  var layer = new FeatureLayer({
+        featureSet:window.MORTGAGE_DATA,
+          layerDefinition:{
+            "geometryType":"esriGeometryPolygon",
+            "displayFieldName": "tract",
+            "fields" : [
+              {"name":"OBJECTID","type":"esriFieldTypeOID"},
+              {"name":"Shape","type":"esriFieldTypeGeometry"},
+              {"name":"tract","type":"esriFieldTypeDouble"},
+              {"name":"White","type":"esriFieldTypeSmallInteger"},
+              {"name":"Hispanic","type":"esriFieldTypeSmallInteger"},
+              {"name":"Asian","type":"esriFieldTypeSmallInteger"},
+              {"name":"Black","type":"esriFieldTypeSmallInteger"},
+              {"name":"Pacific_Islander","type":"esriFieldTypeSmallInteger"},
+              {"name":"American_Indian","type":"esriFieldTypeSmallInteger"}
+            ]
+          }
+        },
+      {
+        mode: FeatureLayer.MODE_SNAPSHOT,
+        outFields: ["tract","White","Hispanic","Asian","Black","Pacific_Islander","American_Indian"]
+      }
+    );
 
 
   var dotSizes = {32:4,8:3,2:3};
