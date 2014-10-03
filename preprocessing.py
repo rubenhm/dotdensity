@@ -39,3 +39,10 @@ with arcpy.da.UpdateCursor('yolo_tracts', raceFields) as yolo_curs:
     for key in tracts[tract]:
        row[posInRow[key]] = tracts[tract][key]
     yolo_curs.updateRow(row)
+
+#project to web mercator (for a single file, the wizard is probably faster)
+arcpy.Project_management(
+  "yolo_tracts",
+  "yolo_tracts_by_race",
+  arcpy.SpatialReference(r"C:\\Users\\wpearsal\\AppData\\Roaming\\ESRI\\Desktop10.2\\ArcMap\\Coordinate Systems\\Coordinate Systems\\WGS 1984 Web Mercator (auxiliary sphere).prj"),
+  "NAD_1983_To_WGS_1984_5")
